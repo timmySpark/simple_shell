@@ -77,7 +77,8 @@ void execute_args(char **args)
 {
 	pid_t pid, wpid;
 	int status;
-
+	
+	(void) wpid;
 	pid = fork();
 
 	if (pid == 0)
