@@ -29,18 +29,24 @@ int execute_args(char **args, **envp)
 	{
 		waitpid(pid, &status, 0);
 
-		if (WIFEXITED(status)) 
+		if (WIFEXITED(status))
 		{
 			return (WEXITSTATUS(status));
 		}
-		else 
+		else
 		{
-			perror("fork");
-			return (-1);
+			fprintf(stderr, "Child Process did not exit normally\n");
+			return (-1)
 		}
 	}
+	else
+	{
+		perror("fork");
+		return (-1);
+	}
+}
 
-char *find_command(const char *command, char *envp)
+char *find_command(const char *command, char **envp)
 {
 	char *path = getenv("PATH");
 	char *token, *saveptr;
@@ -57,10 +63,18 @@ char *find_command(const char *command, char *envp)
 		}
 
 		strcpy(full_path, token);
-		strcat(full_path, "/");
+		strcat(full_path, '/');
 		strcat(full_path, command);
 
-		if (access(full_path, X_OK) == 0)
+		if (access(full_path. X_OK) == 0)
 		{
 			return (full_path);
 		}
+
+		free (full_path);
+		token = strtok_r(NULL);
+
+	}
+
+	return (NULL);
+}
