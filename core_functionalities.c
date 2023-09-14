@@ -73,12 +73,12 @@ char **split_line(char *line)
  *
  */
 
-int execute_arguments(char **args, char **envp)
+int execute_args(char **args)
 {
 	pid_t pid;
 	int status;
 
-	char *command_path = find_command(args[0], envp);
+	char *command_path = find_command(args[0]);
 	if (command_path == NULL)
 	{
 		fprintf(stderr, "Command not found: %s\n", args[0]);
@@ -89,7 +89,7 @@ int execute_arguments(char **args, char **envp)
 
 	if (pid == 0)
 	{
-		if (execve(command_path, args, envp) == -1)
+		if (execve(command_path, args, NULL) == -1)
 		{
 			perror("execve");
 			exit(EXIT_FAILURE);
@@ -116,14 +116,12 @@ int execute_arguments(char **args, char **envp)
 		return (-1);
 	}
 }
-char *find_command(const char *command, char **envp)
+char *find_command(const char *command)
 {
 	char *path = getenv("PATH");
 	char *token, *saveptr;
 	
-	(void)envp;
 	token = strtok_r(path, ":", &saveptr);
-	printf("%s", token);
 
 	while (token != NULL)
 	{

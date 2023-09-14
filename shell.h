@@ -16,8 +16,7 @@ void non_interactive(void);
 /* Core Shell Functionality */
 char *read_line(void);
 char **split_line(char *line);
-void execute_args(char **args);
-int execute_arguments(char **args, char **envp);
-char *find_command(const char *command, char **envp);
+int execute_args(char **args);
+char *find_command(const char *command);
 
 #endif
