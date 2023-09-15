@@ -81,7 +81,6 @@ int execute_args(char **args)
 	char *command_path = find_command(args[0]);
 	if (command_path == NULL)
 	{
-		fprintf(stderr, "Command not found: %s\n", args[0]);
 		return (-1);
 	}
 
