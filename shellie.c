@@ -6,11 +6,13 @@
  * Return: Always 0.
  */
 
-int main(void)
+int main(int argc, char *argv[], char *envp[])
 {
+	(void)argc;
+	(void)argv;
 	if (isatty(STDIN_FILENO) == 1)
 	{
-		interactive();
+		interactive(envp);
 	}
 	else
 	{
@@ -19,13 +21,24 @@ int main(void)
 	return (0);
 }
 
+/**
+ * print_environment - prints env variables
+ */
+void print_environment(char **envp)
+{
+	int i;
 
+	for (i = 0; envp[i] != NULL; i++)
+	{
+		printf("%s\n", envp[i]);
+	}
+}
 /**
  * interactive - functions used when shell is waiting for user input
  *
  */
 
-void interactive(void)
+void interactive(char **envp)
 {
 	char *line;
 	char **args;
@@ -43,14 +56,22 @@ void interactive(void)
 		}
 
 		args = split_line(line);
+		if (args[0] != NULL && strcmp(args[0], "env") == 0)
+		{
+			print_environment(envp);
+		}
+		else
+		{
+			execute_args(args);
+		}
 		if (args[0] != NULL && strcmp(args[0], "exit") == 0)
 		{
 			free(line);
 			free(args);
 			exit(EXIT_SUCCESS);
 		}
-
-
+		
+		
 		execute_args(args);
 
 		free(line);

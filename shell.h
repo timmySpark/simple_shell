@@ -10,7 +10,7 @@
 
 /* Shell Prototypes */
 
-void interactive(void);
+void interactive(char **envp);
 void non_interactive(void);
 
 /* Core Shell Functionality */
@@ -18,5 +18,8 @@ char *read_line(void);
 char **split_line(char *line);
 int execute_args(char **args);
 char *find_command(const char *command);
+
+/* utility functionalities */
+void print_environment(char **envp);
 
 #endif
