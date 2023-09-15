@@ -43,6 +43,14 @@ void interactive(void)
 		}
 
 		args = split_line(line);
+		if (args[0] != NULL && strcmp(args[0], "exit") == 0)
+		{
+			free(line);
+			free(args);
+			exit(EXIT_SUCCESS);
+		}
+
+
 		execute_args(args);
 
 		free(line);
