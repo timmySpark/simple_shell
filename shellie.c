@@ -20,7 +20,39 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	return (0);
 }
+/**
+ * _set_env - set environment variable
+ *
+ */
+void _setenv(char **args)
+{
+	if (args[1] == NULL || args[2] == NULL)
+	{
+		fprintf(stderr, "Usage: setenv VARIABLE VALUES\n");
+		return;
+	}
 
+	if (setenv(args[1], args[2], 1) != 0)
+	{
+		perror("setenv");
+	}
+}
+/**
+ * _unsetenv - unsets an environment variavle
+ *
+ */
+void _unsetenv(char **args)
+{
+	if (args[1] == NULL)
+	{
+		fprintf(stderr, "Usage: unsetenv VARIABLE VALUES\n");
+		return;
+	}
+	if (unsetenv(args[1]) != 0)
+	{
+		perror("unsetenv");
+	}
+}
 /**
  * print_environment - prints env variables
  */
@@ -56,15 +88,19 @@ void interactive(char **envp)
 		}
 
 		args = split_line(line);
-		if (args[0] != NULL && strcmp(args[0], "env") == 0)
+		if (args[0] != NULL && strcmp(args[0], "setenv") == 0)
+		{
+			_setenv(args);
+		}
+		else if (args[0] != NULL && strcmp(args[0], "unsetenv") == 0)
+		{
+			_unsetenv(args);
+		}
+		else if (args[0] != NULL && strcmp(args[0], "env") == 0)
 		{
 			print_environment(envp);
 		}
-		else
-		{
-			execute_args(args);
-		}
-		if (args[0] != NULL && strcmp(args[0], "exit") == 0)
+		else if (args[0] != NULL && strcmp(args[0], "exit") == 0)
 		{
 			if (args[1] != NULL)
 			{
@@ -80,9 +116,11 @@ void interactive(char **envp)
 				exit(EXIT_SUCCESS);
 			}
 		}
+		else
+		{
+			execute_args(args);
+		}
 		
-		execute_args(args);
-
 		free(line);
 		free(args);
 	}
