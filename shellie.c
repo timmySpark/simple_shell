@@ -66,11 +66,20 @@ void interactive(char **envp)
 		}
 		if (args[0] != NULL && strcmp(args[0], "exit") == 0)
 		{
-			free(line);
-			free(args);
-			exit(EXIT_SUCCESS);
+			if (args[1] != NULL)
+			{
+				int status = atoi(args[1]);
+				free(line);
+				free(args);
+				exit(status);
+			}
+			else
+			{
+				free(line);
+				free(args);
+				exit(EXIT_SUCCESS);
+			}
 		}
-		
 		
 		execute_args(args);
 
