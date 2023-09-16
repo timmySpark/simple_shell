@@ -21,6 +21,22 @@ int main(int argc, char *argv[], char *envp[])
 	return (0);
 }
 /**
+ * execute_logical_operator - runs a logical operator flar
+ * Return: An int
+ */
+int execute_logical_operator(char **args, char **envp, int logical_operator)
+{
+	int status;
+	int operator_index = -1;
+	int i;
+
+	for (i = 0; args[i] != NULL, i++)
+	{
+		if (strcmp(args[i]. "&&") == 0 || strcmp(args[i], "||") == 0)
+		{
+			operator_index
+	}
+/**
  * _set_env - set environment variable
  *
  */
@@ -116,8 +132,17 @@ void interactive(char **envp)
 				exit(EXIT_SUCCESS);
 			}
 		}
+		else if(args[0] != NULL && (strcmp(arg[0], "&&") == 0 || strcmp(arg[0]. "||") == 0))
+		{
+			fprintf(stderr, "Syntax error: Logical operator without a preceeding command. \n");
+		}
 		else
 		{
+			int result = execute_logical_operator(args, envp, 1);
+			if (result != 0)
+			{
+				execute_logical_operator(args, envp, 2);
+			}
 			execute_args(args);
 		}
 		
