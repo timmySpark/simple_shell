@@ -21,5 +21,6 @@ char *find_command(const char *command);
 
 /* utility functionalities */
 void print_environment(char **envp);
+int execute_logical_operator(char **args, char **envp, int logical_operator);
 
 #endif

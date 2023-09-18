@@ -26,16 +26,45 @@ int main(int argc, char *argv[], char *envp[])
  */
 int execute_logical_operator(char **args, char **envp, int logical_operator)
 {
-	int status;
 	int operator_index = -1;
 	int i;
+	char **cmd1;
+	char **cmd2;
+	int cmd1_status;
 
-	for (i = 0; args[i] != NULL, i++)
+	(void)envp;
+	for (i = 0; args[i] != NULL; i++)
 	{
-		if (strcmp(args[i]. "&&") == 0 || strcmp(args[i], "||") == 0)
+		if ((strcmp(args[i], "&&") == 0 || strcmp(args[i], "||") == 0))
 		{
-			operator_index
+			operator_index = i;
+			break;
+		}
 	}
+
+	if (operator_index == -1)
+	{
+		execute_args(args);
+		return (0);
+	}
+
+	cmd1 = args;
+	cmd2 = args + operator_index + 1;
+	args[operator_index] = NULL;
+
+	execute_args(cmd1);
+
+	wait(&cmd1_status);
+
+	if ((logical_operator == 1 && cmd1_status == 0) || (logical_operator == 2 && cmd1_status != 0))
+	{
+		execute_args(cmd2);
+		return (0);
+	}
+
+	return (1); 
+}
+
 /**
  * _set_env - set environment variable
  *
@@ -132,7 +161,7 @@ void interactive(char **envp)
 				exit(EXIT_SUCCESS);
 			}
 		}
-		else if(args[0] != NULL && (strcmp(arg[0], "&&") == 0 || strcmp(arg[0]. "||") == 0))
+		else if(args[0] != NULL && (strcmp(args[0], "&&") == 0 || strcmp(args[0], "||") == 0))
 		{
 			fprintf(stderr, "Syntax error: Logical operator without a preceeding command. \n");
 		}
@@ -143,7 +172,6 @@ void interactive(char **envp)
 			{
 				execute_logical_operator(args, envp, 2);
 			}
-			execute_args(args);
 		}
 		
 		free(line);
