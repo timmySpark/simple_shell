@@ -26,43 +26,63 @@ int main(int argc, char *argv[], char *envp[])
  */
 int execute_logical_operator(char **args, char **envp, int logical_operator)
 {
-	int operator_index = -1;
+	int status = 0;
 	int i;
-	char **cmd1;
-	char **cmd2;
-	int cmd1_status;
+	int cmd_status;
+	int cmd_count = 0;
+	int cmd_index = 0;
+	char ***commands;
 
 	(void)envp;
+	while (args[i] != NULL)
+	{
+		if (strcmp(args[i], "&&") == 0 || strcmp(args[i], "||") == 0)
+		{
+			cmd_count++;
+		}
+		i++;
+	}
+
+	commands = malloc((cmd_count + 1) * sizeof(char **));
+	if (commands == NULL)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+
+	cmd_index = 0;
+	commands[cmd_index] = args;
+
+	for (i = 0; i <= cmd_count; i++)
+	{
+		if (strcmp(args[i], "&&") == 0 || strcmp(args[i], "||") == 0)
+		{
+			args[i] = NULL;
+			cmd_index++;
+			commands[cmd_index] = &args[i + 1];
+		}
+	}
+
 	for (i = 0; args[i] != NULL; i++)
 	{
-		if ((strcmp(args[i], "&&") == 0 || strcmp(args[i], "||") == 0))
+		if ((logical_operator == 1 && status == 0) || (logical_operator == 2 && status!= 0))
 		{
-			operator_index = i;
+			execute_args(commands[i]);
+			wait(&cmd_status);
+			if (WIFEXITED(cmd_status))
+			{
+				status = WEXITSTATUS(cmd_status);
+			}
+		}
+		else 
+		{
 			break;
 		}
 	}
 
-	if (operator_index == -1)
-	{
-		execute_args(args);
-		return (0);
-	}
+	free(commands);
+	return (status);
 
-	cmd1 = args;
-	cmd2 = args + operator_index + 1;
-	args[operator_index] = NULL;
-
-	execute_args(cmd1);
-
-	wait(&cmd1_status);
-
-	if ((logical_operator == 1 && cmd1_status == 0) || (logical_operator == 2 && cmd1_status != 0))
-	{
-		execute_args(cmd2);
-		return (0);
-	}
-
-	return (1); 
 }
 
 /**
@@ -119,6 +139,7 @@ void interactive(char **envp)
 {
 	char *line;
 	char **args;
+	int result;
 
 	while (1)
 	{
@@ -167,7 +188,7 @@ void interactive(char **envp)
 		}
 		else
 		{
-			int result = execute_logical_operator(args, envp, 1);
+			result = execute_logical_operator(args, envp, 1);
 			if (result != 0)
 			{
 				execute_logical_operator(args, envp, 2);
