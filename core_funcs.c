@@ -1,7 +1,23 @@
 #include "shell.h"
 
-#define BUFFER_SIZE 64
 #define TOKEN_DELIM " \t\r\n"
+
+/**
+ * _strlen - a function that returns the length of a string
+ * @str: character input str
+ * Return: The length of str
+ */
+
+size_t _strlen(const char *str)
+{
+	size_t length = 0;
+
+	while (*str++)
+		length++;
+
+	return (length);
+}
+
 
 /**
  * read_line - read lines
@@ -12,7 +28,7 @@ char *read_line(void)
 	char *line;
 	size_t buf = 0;
 
-	if (getline(&line, &buf, stdin) == -1)
+	if (_getline(&line, &buf, stdin) == -1)
 	{
 		if (feof(stdin))
 		{
@@ -52,13 +68,13 @@ char **split_line(char *line)
 		exit(EXIT_FAILURE);
 	}
 
-	split_str = strtok(line, TOKEN_DELIM);
+	split_str = _strtok(line, TOKEN_DELIM);
 
 	while (split_str != NULL)
 	{
 		tokens[i] = split_str;
 		i++;
-		split_str = strtok(NULL, TOKEN_DELIM);
+		split_str = _strtok(NULL, TOKEN_DELIM);
 
 	}
 
@@ -79,6 +95,7 @@ int execute_args(char **args)
 	int status;
 
 	char *command_path = find_command(args[0]);
+
 	if (command_path == NULL)
 	{
 		return (-1);
@@ -105,7 +122,8 @@ int execute_args(char **args)
 		}
 		else
 		{
-			fprintf(stderr, "Child Process did not exit normally\n");
+			fprintf(stderr,
+				"Child Process did not exit normally\n");
 			return (-1);
 		}
 	}
@@ -115,16 +133,19 @@ int execute_args(char **args)
 		return (-1);
 	}
 }
+
+
 char *find_command(const char *command)
 {
 	char *path = getenv("PATH");
-	char *token, *saveptr;
-	
+	char *token, *saveptr, *full_path;
+
 	token = strtok_r(path, ":", &saveptr);
 
 	while (token != NULL)
 	{
-		char *full_path = malloc(strlen(token) + strlen(command) + 2);
+		full_path = malloc(_strlen(token) + _strlen(command) + 2);
+
 		if (full_path == NULL)
 		{
 			perror("malloc");
@@ -137,14 +158,10 @@ char *find_command(const char *command)
 		strcat(full_path, command);
 
 		if (access(full_path, X_OK) == 0)
-		{
 			return (full_path);
-		}
 
-		free (full_path);
+		free(full_path);
 		token = strtok_r(NULL, ":", &saveptr);
-
 	}
-
 	return (NULL);
 }

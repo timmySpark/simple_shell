@@ -8,6 +8,8 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
+#define BUFFER_SIZE 1024
+
 /* Shell Prototypes */
 
 void interactive(char **envp);
@@ -19,7 +21,15 @@ char **split_line(char *line);
 int execute_args(char **args);
 char *find_command(const char *command);
 
-/* utility functionalities */
+/* Custom Functions */
+char is_delim(char str, char *delim);
+char *_strtok(char *str, char *delim);
+size_t _strlen(const char *str);
+ssize_t _getline(char **line_ptr, size_t *n, FILE *stream);
+
+/* utility functionalities*/
+void _setenv(char **args);
+void _unsetenv(char **args);
 void print_environment(char **envp);
 int execute_logical_operator(char **args, char **envp, int logical_operator);
 
