@@ -24,67 +24,44 @@ int main(int argc, char *argv[], char *envp[])
  * execute_logical_operator - runs a logical operator flar
  * Return: An int
  */
-int execute_logical_operator(char **args, char **envp, int logical_operator)
+void execute_logical_operator(char **args, char **envp)
 {
-	int status = 0;
-	int i;
-	int cmd_status;
-	int cmd_count = 0;
-	int cmd_index = 0;
-	char ***commands;
+	int i = 0;
+	bool continue_execution = true;
 
 	(void)envp;
 	while (args[i] != NULL)
 	{
-		if (strcmp(args[i], "&&") == 0 || strcmp(args[i], "||") == 0)
+		if (strcmp(args[i], "&&") == 0)
 		{
-			cmd_count++;
-		}
+			if (continue_execution)
+			{
+				execute_args(args);
+			}
 		i++;
-	}
-
-	commands = malloc((cmd_count + 1) * sizeof(char **));
-	if (commands == NULL)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-
-	cmd_index = 0;
-	commands[cmd_index] = args;
-
-	for (i = 0; i <= cmd_count; i++)
-	{
-		if (strcmp(args[i], "&&") == 0 || strcmp(args[i], "||") == 0)
+		continue_execution = true;
+		}
+		else if (strcmp(args[i], "||") == 0)
 		{
 			args[i] = NULL;
-			cmd_index++;
-			commands[cmd_index] = &args[i + 1];
-		}
-	}
-
-	for (i = 0; args[i] != NULL; i++)
-	{
-		if ((logical_operator == 1 && status == 0) || (logical_operator == 2 && status!= 0))
-		{
-			execute_args(commands[i]);
-			wait(&cmd_status);
-			if (WIFEXITED(cmd_status))
+			if (!continue_execution)
 			{
-				status = WEXITSTATUS(cmd_status);
+				execute_args(args);
 			}
+			i++;
+			continue_execution = true;
 		}
 		else 
 		{
-			break;
+			i++;
 		}
 	}
-
-	free(commands);
-	return (status);
-
+	
+	if (continue_execution)
+	{
+		execute_args(args);
+	}
 }
-
 /**
  * _set_env - set environment variable
  *
@@ -139,7 +116,6 @@ void interactive(char **envp)
 {
 	char *line;
 	char **args;
-	int result;
 
 	while (1)
 	{
@@ -182,18 +158,10 @@ void interactive(char **envp)
 				exit(EXIT_SUCCESS);
 			}
 		}
-		else if(args[0] != NULL && (strcmp(args[0], "&&") == 0 || strcmp(args[0], "||") == 0))
+		else if (args[0] != NULL)
 		{
-			fprintf(stderr, "Syntax error: Logical operator without a preceeding command. \n");
-		}
-		else
-		{
-			result = execute_logical_operator(args, envp, 1);
-			if (result != 0)
-			{
-				execute_logical_operator(args, envp, 2);
-			}
-		}
+			execute_logical_operator(args, envp);
+		}		
 		
 		free(line);
 		free(args);

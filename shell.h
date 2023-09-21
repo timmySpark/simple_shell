@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <stdbool.h>
 
 /* Shell Prototypes */
 
@@ -21,6 +22,6 @@ char *find_command(const char *command);
 
 /* utility functionalities */
 void print_environment(char **envp);
-int execute_logical_operator(char **args, char **envp, int logical_operator);
+void execute_logical_operator(char **args, char **envp);
 
 #endif
