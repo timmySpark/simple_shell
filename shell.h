@@ -42,6 +42,7 @@ void cd_command(char **args);
 void be_free(char *line, char **args);
 void handle_exit(char **args);
 void handle_special_commands(char **args, char **envp, char *name);
+void *_realloc(void *ptr, unsigned int new_size);
 
 
 /* utility functionalities*/

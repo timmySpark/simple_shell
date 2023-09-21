@@ -64,7 +64,7 @@ char **split_line(char *line, char *name)
 		if (i >= bufsize)
 		{
 			bufsize += BUFFER_SIZE;
-			tokens = realloc(tokens, sizeof(char *) * bufsize);
+			tokens = _realloc(tokens, sizeof(char *) * bufsize);
 
 			if (!tokens)
 			{
