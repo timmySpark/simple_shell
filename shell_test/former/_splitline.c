@@ -1,5 +1,8 @@
 #include "shell.h"
 
+#define TOKEN_DELIM " \t\r\n"
+
+
 /**
  * allocate - allocate tokens
  * @bufsize: buffer size
