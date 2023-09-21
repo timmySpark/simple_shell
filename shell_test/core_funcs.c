@@ -59,7 +59,6 @@ void execute_args(char **args, char *name)
 	char *command_path;
 
 	extern char **environ;
-	(void)wpid;
 	for (i = 0; args[i]; i++)
 		args[i] = substitute_var(args[i]);
 	command_path = find_command(args[0]);
@@ -119,21 +118,24 @@ char *find_command(const char *command)
 
 	if (!path)
 		return (NULL);
+	if (command[0] == '/')
+	{
+		return(strdup(command));
+	}
 
 	token = strtok(path, ":");
 	printf("tokens(1): %s\n", token);
+	full_path = malloc(_strlen(token) + _strlen(command) + 2);
 
 	while (token != NULL)
 	{
-		full_path = malloc(_strlen(token) + _strlen(command) + 2);
 		printf("full path: %s", full_path);
 		if (full_path == NULL)
 		{
 			perror("malloc");
-			free(path);
+			free(full_path);
 			return (NULL);
 		}
-
 		strcpy(full_path, token);
 		strcat(full_path, "/");
 		strcat(full_path, command);
