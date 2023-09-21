@@ -2,6 +2,9 @@
 
 /**
  * main -  check if file is connected to terminal
+ * @argc: argument count
+ * @argv: first arg on terminal
+ * @envp: environment
  *
  * Return: Always 0.
  */

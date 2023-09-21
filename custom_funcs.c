@@ -75,6 +75,10 @@ char *_strtok(char *str, char *delim)
 	return (curr_str);
 }
 
+/**
+ * cd_command - handle cd command
+ * @args: args
+ */
 
 void cd_command(char **args)
 {
@@ -98,3 +102,41 @@ void cd_command(char **args)
 	else
 		perror("getcwd");
 }
+
+/**
+ * _realloc - reallocates a memory block using malloc and free
+ * @ptr: pointer to the memory previously allocated
+ * @new_size: bytes of the new memory block
+ *
+ * Return: If new_size == 0 and ptr is not NULL - NULL.
+ *         Otherwise - a pointer to the reallocated memory block
+ */
+
+void *_realloc(void *ptr, unsigned int new_size)
+{
+	char *new_block;
+	unsigned int copy_size;
+	char *original;
+
+	if (ptr == NULL)
+		return (malloc(new_size));
+
+	if (new_size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+
+	new_block = malloc(new_size);
+	if (!new_block)
+		return (NULL);
+
+	copy_size = new_size;
+	original = ptr;
+
+	while (copy_size-- > 0)
+		new_block[copy_size] = original[copy_size];
+	free(ptr);
+	return (new_block);
+}
+

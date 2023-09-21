@@ -3,7 +3,7 @@
 /**
  * allocate_buffer - allocate buffer to n if line ptr is null
  * @line_ptr: pointer to the line
- * @size: size
+ * @n: size
  * Return: 0
  */
 

@@ -1,6 +1,12 @@
 #include "shell.h"
 #define TOKEN_DELIM " \t\r\n"
 
+/**
+ * read_line - read lines
+ * @name:  first argument in terminal
+ * Return: read line
+ */
+
 char *read_line(char *name)
 {
 	char *line = NULL;
@@ -22,6 +28,15 @@ char *read_line(char *name)
 	}
 	return (line);
 }
+
+/**
+ * split_line - split line into tokens
+ * @line: line to be split
+ * @name: name of the first argument in the terminal
+ *
+ * Return: a pointer to the tokens
+ */
+
 
 char **split_line(char *line, char *name)
 {
@@ -65,6 +80,11 @@ char **split_line(char *line, char *name)
 	return (tokens);
 }
 
+/**
+ * execute_args - execute the arguments using execve
+ * @args: arguments to be executed
+ * @name: name of the first argument
+ */
 
 void execute_args(char **args, char *name)
 {
