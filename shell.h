@@ -7,16 +7,12 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <sys/types.h>
-<<<<<<< HEAD
-#include <stdbool.h>
-=======
 #include <stddef.h>
 #include <limits.h>
 
 #define BUFFER_SIZE 1024
 
 extern char **environ;
->>>>>>> 0fcce9bbea663c1c5f326967c43b0b5300a061b0
 
 /* Shell Prototypes */
 
@@ -43,16 +39,15 @@ size_t reallocate(char **line_ptr, size_t *n, int char_count);
 ssize_t read_fd(int fd, char *buffer, int *chars_left);
 ssize_t _getline(char **line_ptr, size_t *n, FILE *stream);
 void cd_command(char **args);
-void be_free(char *line, char **args);
+void _free(char *line, char **args);
 void handle_exit(char **args);
 void handle_special_commands(char **args, char **envp, char *name);
-void *_realloc(void *ptr, unsigned int new_size);
 
 
 /* utility functionalities*/
 void _setenv(char **args);
 void _unsetenv(char **args);
 void print_environment(char **envp);
-void execute_logical_operator(char **args, char **envp);
+int execute_logical_operator(char **args, char **envp, int logical_operator);
 
 #endif

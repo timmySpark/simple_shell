@@ -25,10 +25,10 @@ char *substitute_var(char *token)
 
 char *read_line(char *name)
 {
-	char *line = NULL;
-	size_t buf = 0;
+	char *line;
+	size_t buf = BUFFER_SIZE;
 
-	if (getline(&line, &buf, stdin) == -1)
+	if (_getline(&line, &buf, stdin) == -1)
 	{
 		if (feof(stdin))
 		{
@@ -54,15 +54,14 @@ char *read_line(char *name)
 
 void execute_args(char **args, char *name)
 {
-	pid_t pid;
+	pid_t pid, wpid;
 	int i, status;
 	char *command_path;
 
-	extern char **environ;
+
 	for (i = 0; args[i]; i++)
 		args[i] = substitute_var(args[i]);
 	command_path = find_command(args[0]);
-	printf("%s", command_path);
 	if (command_path == NULL)
 	{
 		fprintf(stderr, "%s: Command not found: %s\n", name, args[0]);
@@ -71,8 +70,7 @@ void execute_args(char **args, char *name)
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("Attempting to execute %s\n", command_path);
-		if (execve(command_path, args, environ) == -1)
+		if (execve(command_path, args, NULL) == -1)
 		{
 			perror(name);
 			free(command_path);
@@ -88,7 +86,7 @@ void execute_args(char **args, char *name)
 	else
 	{
 		do
-			waitpid(pid, &status, WUNTRACED);
+			wpid = waitpid(pid, &status, WUNTRACED);
 		while
 			(!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
@@ -106,10 +104,6 @@ char *find_command(const char *command)
 	char *path = strdup(path_orig);
 	char *token, *full_path;
 
-	printf("path_orig: %s\n", path_orig);
-	printf("path: %s\n", path);
-
-
 	if (!path_orig)
 	{
 		free(path);
@@ -118,36 +112,31 @@ char *find_command(const char *command)
 
 	if (!path)
 		return (NULL);
-	if (command[0] == '/')
-	{
-		return(strdup(command));
-	}
 
-	token = strtok(path, ":");
-	printf("tokens(1): %s\n", token);
-	full_path = malloc(_strlen(token) + _strlen(command) + 2);
+	token = _strtok(path, ":");
 
 	while (token != NULL)
 	{
-		printf("full path: %s", full_path);
+		full_path = malloc(_strlen(token) + _strlen(command) + 2);
+
 		if (full_path == NULL)
 		{
 			perror("malloc");
-			free(full_path);
+			free(path);
 			return (NULL);
 		}
+
 		strcpy(full_path, token);
 		strcat(full_path, "/");
 		strcat(full_path, command);
-		printf("full path: %s\n", full_path);
+
 		if (access(full_path, X_OK) == 0)
 		{
 			free(path);
 			return (full_path);
 		}
 		free(full_path);
-		token = strtok(NULL, ":");
-		printf("token(2): %s\n", token);
+		token = _strtok(NULL, ":");
 	}
 	free(path);
 	return (NULL);

@@ -2,8 +2,6 @@
 
 /**
  * interactive - shell is waiting for user input
- * @envp: environment
- * @name: first arg on terminal
  *
  */
 
@@ -11,7 +9,6 @@ void interactive(char **envp, char *name)
 {
 	char *line;
 	char **args;
-	int result, status;
 
 	while (1)
 	{
@@ -21,23 +18,27 @@ void interactive(char **envp, char *name)
 		line = read_line(name);
 
 		if (!line)
+		{
+			free(line);
 			continue;
+		}
 
 		args = split_line(line, name);
 
 		if (args[0] == NULL)
 		{
-			be_free(line, args);
+			_free(line, args);
 			continue;
 		}
-		execute_args(args, name);
-		be_free(line, args);
+
+		handle_special_commands(args, envp, name);
+		_free(line, args);
 	}
 }
 
 /**
  * non_interactive - functions used when shell is processing automated commands
- * @name: first arg on terminal
+ *
  */
 
 void non_interactive(char *name)
@@ -57,8 +58,30 @@ void non_interactive(char *name)
 
 		args = split_line(line, name);
 		execute_args(args, name);
-		be_free(line, args);
+		_free(line, args);
 	}
+}
+/**
+ * handle_special_commands- handle commands to  navigate in shell
+ * @args: arguments
+ * @envp: environment
+ * @name: first argment in the terminal
+ */
+
+void handle_special_commands(char **args, char **envp, char *name)
+{
+	if (args[0] != NULL && strcmp(args[0], "setenv") == 0)
+		_setenv(args);
+	else if (args[0] != NULL && strcmp(args[0], "unsetenv") == 0)
+		_unsetenv(args);
+	else if (args[0] != NULL && strcmp(args[0], "env") == 0)
+		print_environment(envp);
+	else if (args[0] != NULL && strcmp(args[0], "exit") == 0)
+		handle_exit(args);
+	else if (strcmp(args[0], "cd") == 0)
+		cd_command(args);
+	else
+		execute_args(args, name);
 }
 
 /**
@@ -76,12 +99,12 @@ void handle_exit(char **args)
 }
 
 /**
- * be_free -  free line and args of memory
+ * _free -  free line and args of memory
  * @line: line to be freed
- * @args: arguments to be freed
+ * @arguments: arguments to be freed
  */
 
-void be_free(char *line, char **args)
+void _free(char *line, char **args)
 {
 	free(line);
 	free(args);

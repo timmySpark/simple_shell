@@ -25,10 +25,10 @@ char *substitute_var(char *token)
 
 char *read_line(char *name)
 {
-	char *line;
-	size_t buf = BUFFER_SIZE;
+	char *line = NULL;
+	size_t buf = 0;
 
-	if (_getline(&line, &buf, stdin) == -1)
+	if (getline(&line, &buf, stdin) == -1)
 	{
 		if (feof(stdin))
 		{
@@ -54,14 +54,15 @@ char *read_line(char *name)
 
 void execute_args(char **args, char *name)
 {
-	pid_t pid, wpid;
+	pid_t pid;
 	int i, status;
 	char *command_path;
 
-
+	extern char **environ;
 	for (i = 0; args[i]; i++)
 		args[i] = substitute_var(args[i]);
 	command_path = find_command(args[0]);
+
 	if (command_path == NULL)
 	{
 		fprintf(stderr, "%s: Command not found: %s\n", name, args[0]);
@@ -70,7 +71,7 @@ void execute_args(char **args, char *name)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(command_path, args, NULL) == -1)
+		if (execve(command_path, args, environ) == -1)
 		{
 			perror(name);
 			free(command_path);
@@ -86,7 +87,7 @@ void execute_args(char **args, char *name)
 	else
 	{
 		do
-			wpid = waitpid(pid, &status, WUNTRACED);
+			waitpid(pid, &status, WUNTRACED);
 		while
 			(!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
@@ -112,20 +113,23 @@ char *find_command(const char *command)
 
 	if (!path)
 		return (NULL);
+	if (command[0] == '/')
+	{
+		return(strdup(command));
+	}
 
-	token = _strtok(path, ":");
+	token = strtok(path, ":");
+
+	full_path = malloc(_strlen(token) + _strlen(command) + 2);
 
 	while (token != NULL)
 	{
-		full_path = malloc(_strlen(token) + _strlen(command) + 2);
-
 		if (full_path == NULL)
 		{
 			perror("malloc");
-			free(path);
+			free(full_path);
 			return (NULL);
 		}
-
 		strcpy(full_path, token);
 		strcat(full_path, "/");
 		strcat(full_path, command);
@@ -136,7 +140,7 @@ char *find_command(const char *command)
 			return (full_path);
 		}
 		free(full_path);
-		token = _strtok(NULL, ":");
+		token = strtok(NULL, ":");
 	}
 	free(path);
 	return (NULL);
