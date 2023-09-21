@@ -9,7 +9,6 @@ void interactive(char **envp, char *name)
 {
 	char *line;
 	char **args;
-	int result, status;
 
 	while (1)
 	{

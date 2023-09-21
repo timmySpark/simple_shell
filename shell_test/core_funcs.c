@@ -25,10 +25,10 @@ char *substitute_var(char *token)
 
 char *read_line(char *name)
 {
-	char *line;
-	size_t buf = BUFFER_SIZE;
+	char *line = NULL;
+	size_t buf = 0;
 
-	if (_getline(&line, &buf, stdin) == -1)
+	if (getline(&line, &buf, stdin) == -1)
 	{
 		if (feof(stdin))
 		{
