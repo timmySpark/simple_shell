@@ -12,7 +12,7 @@ void interactive_shell(char **envp, char *name)
 
 	while (1)
 	{
-		printf("#shellO$ ");
+		printf("shellO:) ");
 		fflush(stdout);
 
 		line = read_line(name);
