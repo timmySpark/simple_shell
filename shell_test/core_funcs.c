@@ -54,7 +54,7 @@ char *read_line(char *name)
 
 void execute_args(char **args, char *name)
 {
-	pid_t pid, wpid;
+	pid_t pid;
 	int i, status;
 	char *command_path;
 
@@ -71,6 +71,7 @@ void execute_args(char **args, char *name)
 	pid = fork();
 	if (pid == 0)
 	{
+		printf("Attempting to execute %s\n", command_path);
 		if (execve(command_path, args, environ) == -1)
 		{
 			perror(name);
@@ -87,7 +88,7 @@ void execute_args(char **args, char *name)
 	else
 	{
 		do
-			wpid = waitpid(pid, &status, WUNTRACED);
+			waitpid(pid, &status, WUNTRACED);
 		while
 			(!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
@@ -105,6 +106,10 @@ char *find_command(const char *command)
 	char *path = strdup(path_orig);
 	char *token, *full_path;
 
+	printf("path_orig: %s\n", path_orig);
+	printf("path: %s\n", path);
+
+
 	if (!path_orig)
 	{
 		free(path);
@@ -114,12 +119,13 @@ char *find_command(const char *command)
 	if (!path)
 		return (NULL);
 
-	token = _strtok(path, ":");
+	token = strtok(path, ":");
+	printf("tokens(1): %s\n", token);
 
 	while (token != NULL)
 	{
 		full_path = malloc(_strlen(token) + _strlen(command) + 2);
-
+		printf("full path: %s", full_path);
 		if (full_path == NULL)
 		{
 			perror("malloc");
@@ -130,14 +136,15 @@ char *find_command(const char *command)
 		strcpy(full_path, token);
 		strcat(full_path, "/");
 		strcat(full_path, command);
-
+		printf("full path: %s\n", full_path);
 		if (access(full_path, X_OK) == 0)
 		{
 			free(path);
 			return (full_path);
 		}
 		free(full_path);
-		token = _strtok(NULL, ":");
+		token = strtok(NULL, ":");
+		printf("token(2): %s\n", token);
 	}
 	free(path);
 	return (NULL);
