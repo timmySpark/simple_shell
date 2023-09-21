@@ -2,6 +2,9 @@
 
 /**
  * main -  check if file is connected to terminal
+ * @argc: argument count
+ * @argv: first arg on terminal
+ * @envp: environment
  *
  * Return: Always 0.
  */
@@ -9,17 +12,18 @@
 int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
-	(void)argv;
+
 	if (isatty(STDIN_FILENO) == 1)
 	{
-		interactive(envp);
+		interactive(envp, argv[0]);
 	}
 	else
 	{
-		non_interactive();
+		non_interactive(argv[0]);
 	}
 	return (0);
 }
+<<<<<<< HEAD
 /**
  * execute_logical_operator - runs a logical operator flar
  * Return: An int
@@ -195,3 +199,5 @@ void non_interactive(void)
 		free(args);
 	}
 }
+=======
+>>>>>>> 0fcce9bbea663c1c5f326967c43b0b5300a061b0
