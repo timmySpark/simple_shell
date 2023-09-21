@@ -30,7 +30,7 @@ size_t allocate_buffer(char **line_ptr, size_t *n)
  * Return: 0
  */
 
-size_t reallocate(char **line_ptr, size_t *n, int char_count)
+size_t reallocate(char **line_ptr, size_t *n, size_t char_count)
 {
 	char *new_ptr;
 
@@ -83,7 +83,7 @@ ssize_t _getline(char **line_ptr, size_t *n, FILE *stream)
 	int char_count = 0;
 	int fd = fileno(stream);
 
-	if (allocate_buffer(line_ptr, n) == -1)
+	if ((int)allocate_buffer(line_ptr, n) == -1)
 		return (-1);
 
 	while (1)

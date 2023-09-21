@@ -84,16 +84,17 @@ char **split_line(char *line, char *name)
  * execute_args - execute the arguments using execve
  * @args: arguments to be executed
  * @name: name of the first argument
+ *
  */
 
 void execute_args(char **args, char *name)
 {
-	pid_t pid, wpid;
+        pid_t pid, wpid;
 	int status;
 	char *exvp[] = {NULL};
-
+	
 	pid =  fork();
-
+	
 	if (pid == 0)
 	{
 		if (execve(args[0], args, exvp) == -1)
@@ -118,4 +119,5 @@ void execute_args(char **args, char *name)
 				break;
 		}
 	}
-}
+}	
+

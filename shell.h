@@ -7,12 +7,16 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+<<<<<<< HEAD
+#include <stdbool.h>
+=======
 #include <stddef.h>
 #include <limits.h>
 
 #define BUFFER_SIZE 1024
 
 extern char **environ;
+>>>>>>> 0fcce9bbea663c1c5f326967c43b0b5300a061b0
 
 /* Shell Prototypes */
 
@@ -49,6 +53,6 @@ void *_realloc(void *ptr, unsigned int new_size);
 void _setenv(char **args);
 void _unsetenv(char **args);
 void print_environment(char **envp);
-int execute_logical_operator(char **args, char **envp, int logical_operator);
+void execute_logical_operator(char **args, char **envp);
 
 #endif
