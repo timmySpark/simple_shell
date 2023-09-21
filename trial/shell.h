@@ -28,6 +28,9 @@ int _command(char **args, char *name);
 char *find_command(const char *command);
 void run_command(char **args, char *name);
 void cd_command(char **args);
+char **allocate(int bufsize, char *name);
+char **expand_tokens(char **tokens, int *bufsize, char *name);
+char **tokenize(char *line, char **tokens, char *name);
 
 void _setenv(char **args);
 void _unsetenv(char **args);

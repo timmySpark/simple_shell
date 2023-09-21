@@ -85,7 +85,7 @@ ssize_t _getline(char **line_ptr, size_t *n, FILE *stream)
 	int char_count = 0;
 	int fd = fileno(stream);
 
-	if (allocate_buffer(line_ptr, n) == -1)
+	if ((int)allocate_buffer(line_ptr, n) == -1)
 		return (-1);
 	while (1)
 	{
@@ -99,7 +99,7 @@ ssize_t _getline(char **line_ptr, size_t *n, FILE *stream)
 			}
 			buf_ptr = buffer;
 		}
-		if (reallocate(line_ptr, n, char_count) == -1)
+		if ((int)reallocate(line_ptr, n, char_count) == -1)
 			return (-1);
 		if (*buf_ptr == '\n' || *buf_ptr == '\0')
 		{

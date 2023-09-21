@@ -88,7 +88,10 @@ void cd_command(char **args)
 	if (!directory || strcmp(directory, "~") == 0)
 		directory = getenv("HOME");
 	else if (strcmp(directory, "-") == 0)
+	{
 		directory = getenv("OLDPWD");
+		fprintf(stdout, "%s\n", directory);
+	}
 
 	if (chdir(directory) != 0)
 	{
