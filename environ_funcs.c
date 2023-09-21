@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * _set_env - set environment variable
+ * _setenv - set environment variable
  * @args: Arguments
  *
  */

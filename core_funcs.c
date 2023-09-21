@@ -67,7 +67,7 @@ void execute_args(char **args, char *name)
 
 	if (command_path == NULL)
 	{
-		fprintf(stderr, "%s: Command not found: %s\n", name, args[0]);
+		fprintf(stderr, "%s: 1: %s: not found\n", name, args[0]);
 		return;
 	}
 	pid = fork();
