@@ -19,6 +19,23 @@ char is_delim(char str, char *delim)
 }
 
 /**
+ * _strlen - a function that returns the length of a string
+ * @str: character input str
+ * Return: The length of str
+ */
+
+size_t _strlen(const char *str)
+{
+	size_t length = 0;
+
+	while (*str++)
+		length++;
+
+	return (length);
+}
+
+
+/**
  * _strtok - tokenize a string
  * @str: string to be tokenized
  * @delim: delimeter used to tokenize a string
@@ -30,12 +47,12 @@ char *_strtok(char *str, char *delim)
 	static char *next_str;
 	char *curr_str;
 
-	next_str = NULL;
+	if (!next_str)
+		next_str = NULL;
 	if (str == NULL)
 		str = next_str;
 	if (str == NULL)
 		return (NULL);
-
 	while (*str && is_delim(*str, delim))
 		str++;
 	if (*str == '\0')
@@ -58,60 +75,26 @@ char *_strtok(char *str, char *delim)
 	return (curr_str);
 }
 
-/**
- * _getline - accepts string from the input stream as an input
- * @line_ptr: place of char array initial character
- * @n: size
- * @stream: stream from where file will be read
- * Return: char count
- */
 
-ssize_t _getline(char **line_ptr, size_t *n, FILE *stream)
+void cd_command(char **args)
 {
-	static char buffer[BUFFER_SIZE];
-	static char *buf_ptr;
-	static int chars_left;
-	int char_count = 0;
-	int fd = fileno(stream);
+	char *directory = args[1];
+	char cwd[1024];
 
-	chars_left = 0;
-	if (!(*line_ptr))
+	if (!directory || strcmp(directory, "~") == 0)
+		directory = getenv("HOME");
+	else if (strcmp(directory, "-") == 0)
+		directory = getenv("OLDPWD");
+	if (chdir(directory) != 0)
 	{
-		*n = BUFFER_SIZE;
-		*line_ptr = malloc(sizeof(char *) * *n);
-		if (!(*line_ptr))
-			return (-1);
+		perror("cd");
+		return;
 	}
-	while (1)
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		if (chars_left <= 0)
-		{
-			chars_left = read(fd, buffer, BUFFER_SIZE);
-			buf_ptr = buffer;
-			if (chars_left <= 0)
-			{
-				if (char_count == 0)
-					return (-1);
-				break;
-			}
-		}
-		if (char_count + 1 > *n)
-		{
-			*n += BUFFER_SIZE;
-			*line_ptr = realloc(*line_ptr, *n);
-			if (!(*line_ptr))
-				return (-1);
-		}
-		if (*buf_ptr == '\n')
-		{
-			(*line_ptr)[char_count++] = '\0';
-			buf_ptr++;
-			chars_left--;
-			return (char_count);
-		}
-		(*line_ptr)[char_count++] = *buf_ptr++;
-		chars_left--;
+		setenv("OLDPWD", getenv("PWD"), 1);
+		setenv("PWD", cwd, 1);
 	}
-	(*line_ptr)[char_count] = '\0';
-	return (char_count);
+	else
+		perror("getcwd");
 }

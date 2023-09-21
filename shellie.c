@@ -9,14 +9,14 @@
 int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
-	(void)argv;
+
 	if (isatty(STDIN_FILENO) == 1)
 	{
-		interactive(envp);
+		interactive(envp, argv[0]);
 	}
 	else
 	{
-		non_interactive();
+		non_interactive(argv[0]);
 	}
 	return (0);
 }
