@@ -63,6 +63,7 @@ void execute_args(char **args, char *name)
 	for (i = 0; args[i]; i++)
 		args[i] = substitute_var(args[i]);
 	command_path = find_command(args[0]);
+	printf("%s", command_path);
 	if (command_path == NULL)
 	{
 		fprintf(stderr, "%s: Command not found: %s\n", name, args[0]);
