@@ -1,5 +1,8 @@
 #include "shell.h"
-
+/**
+ * _setenv - sets an environment variable
+ * @args: arguement
+ */
 void _setenv(char **args)
 {
 	if (args[1] == NULL || args[2] == NULL)
@@ -15,8 +18,8 @@ void _setenv(char **args)
 }
 
 /**
- * _unsetenv - unsets an environment variavle
- *
+ * _unsetenv - unsets an environment variable
+ * @args: arguements
  */
 
 void _unsetenv(char **args)
@@ -34,6 +37,7 @@ void _unsetenv(char **args)
 
 /**
  * print_environment - prints env variables
+ * @envp: environment path
  */
 
 void print_environment(char **envp)

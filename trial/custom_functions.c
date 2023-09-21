@@ -97,7 +97,7 @@ ssize_t _getline(char **line_ptr, size_t *n, FILE *stream){
             }
         }
 
-        if (char_count + 1 > *n)
+        if ((size_t)char_count + 1 > *n)
         {
             *n += BUFFER_SIZE;
             *line_ptr = realloc(*line_ptr, *n);
@@ -126,6 +126,7 @@ ssize_t _getline(char **line_ptr, size_t *n, FILE *stream){
 
 void cd_command(char **args) {
     char *directory = args[1];
+    char cwd[1024];
 
     if (!directory || strcmp(directory, "~") == 0) {
         directory = getenv("HOME");
@@ -138,7 +139,6 @@ void cd_command(char **args) {
         return;
     }
 
-    char cwd[1024];
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
         setenv("OLDPWD", getenv("PWD"), 1);
         setenv("PWD", cwd, 1);

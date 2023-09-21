@@ -37,4 +37,7 @@ void print_environment(char **envp);
 size_t _strlen(const char *str);
 ssize_t _getline(char **line_ptr, size_t *n, FILE *stream);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+
+void handle_special_commands(char **args, char **envp, char *name);
+void handle_exit(char **args);
 #endif

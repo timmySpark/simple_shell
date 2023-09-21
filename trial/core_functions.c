@@ -3,7 +3,7 @@
 
 char *substitute_var(char *token) {
     if (token[0] == '$') {
-        char *value = getenv(token + 1);  // +1 to skip the $
+        char *value = getenv(token + 1);
         if (value) {
             return value;
         }
@@ -74,15 +74,15 @@ char **split_line(char *line, char * name){
 
 
 void run_command(char **args, char *name) {
-    pid_t pid, wpid;
-    int status;
-    extern char **environ;
+    pid_t pid;
+    int status, i;
+    char *cmd_path;
 
-    for (int i = 0; args[i]; i++) {
+    for (i = 0; args[i]; i++) {
         args[i] = substitute_var(args[i]);
     }
 
-    char *cmd_path = find_command(args[0]);
+    cmd_path = find_command(args[0]);
     if (!cmd_path) {
         fprintf(stderr, "%s: Command not found: %s\n", name, args[0]);
         return;
@@ -91,7 +91,7 @@ void run_command(char **args, char *name) {
     pid = fork();
 
     if (pid == 0) {
-        if (execve(cmd_path, args, environ) == -1) {
+        if (execve(cmd_path, args, NULL) == -1) {
             perror(name);
             free(cmd_path);
             exit(EXIT_FAILURE);
@@ -102,7 +102,8 @@ void run_command(char **args, char *name) {
         exit(EXIT_FAILURE);
     } else {
         do {
-            wpid = waitpid(pid, &status, WUNTRACED);
+ 
+		waitpid(pid, &status, WUNTRACED);
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
 
@@ -155,13 +156,16 @@ char *find_command(const char *command) {
 
 
 char *find_command(const char *command) {
-    if (command[0] == '/') {
-        return strdup(command);
-    }
+	char *path_orig;
+	char *path;
+    	char *token, *full_path;
+	if (command[0] == '/')
+       	{
+        	return strdup(command);
+    	}
 
-    const char *path_orig = getenv("PATH");
-    char *path = strdup(path_orig);
-    char *token, *full_path;
+    path_orig = getenv("PATH");
+    path = strdup(path_orig);
 
     if (!path_orig) {
         free(path);
