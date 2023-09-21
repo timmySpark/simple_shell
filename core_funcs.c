@@ -21,6 +21,9 @@ char *substitute_var(char *token)
 
 /**
  * read_line - read lines
+ * @name: first arg on terminal
+ *
+ * Return: read line
  */
 
 char *read_line(char *name)
@@ -58,7 +61,6 @@ void execute_args(char **args, char *name)
 	int i, status;
 	char *command_path;
 
-	extern char **environ;
 	for (i = 0; args[i]; i++)
 		args[i] = substitute_var(args[i]);
 	command_path = find_command(args[0]);
@@ -71,7 +73,7 @@ void execute_args(char **args, char *name)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(command_path, args, environ) == -1)
+		if (execve(command_path, args, NULL) == -1)
 		{
 			perror(name);
 			free(command_path);
@@ -97,6 +99,8 @@ void execute_args(char **args, char *name)
 /**
  * find_command - find command
  * @command: command to be found
+ *
+ * Return: full_path
  */
 
 char *find_command(const char *command)
@@ -110,18 +114,15 @@ char *find_command(const char *command)
 		free(path);
 		return (NULL);
 	}
-
 	if (!path)
 		return (NULL);
 	if (command[0] == '/')
 	{
-		return(strdup(command));
+		return (strdup(command));
 	}
 
 	token = strtok(path, ":");
-
 	full_path = malloc(_strlen(token) + _strlen(command) + 2);
-
 	while (token != NULL)
 	{
 		if (full_path == NULL)

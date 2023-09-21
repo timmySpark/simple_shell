@@ -2,6 +2,7 @@
 
 /**
  * _set_env - set environment variable
+ * @args: Arguments
  *
  */
 
@@ -20,7 +21,8 @@ void _setenv(char **args)
 }
 
 /**
- * _unsetenv - unsets an environment variavle
+ * _unsetenv - unsets an environment variable
+ * @args: arguments
  *
  */
 
@@ -39,6 +41,7 @@ void _unsetenv(char **args)
 
 /**
  * print_environment - prints env variables
+ * @envp: environment
  */
 
 void print_environment(char **envp)

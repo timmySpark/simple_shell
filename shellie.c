@@ -2,6 +2,9 @@
 
 /**
  * main -  check if file is connected to terminal
+ * @argc: Argument count
+ * @argv: Argument vector
+ * @envp: Environment
  *
  * Return: Always 0.
  */

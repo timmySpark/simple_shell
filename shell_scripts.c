@@ -2,7 +2,8 @@
 
 /**
  * interactive - shell is waiting for user input
- *
+ * @envp: environment
+ * @name: program name
  */
 
 void interactive(char **envp, char *name)
@@ -38,7 +39,7 @@ void interactive(char **envp, char *name)
 
 /**
  * non_interactive - functions used when shell is processing automated commands
- *
+ * @name: program name
  */
 
 void non_interactive(char *name)
@@ -101,7 +102,7 @@ void handle_exit(char **args)
 /**
  * _free -  free line and args of memory
  * @line: line to be freed
- * @arguments: arguments to be freed
+ * @args: arguments to be freed
  */
 
 void _free(char *line, char **args)

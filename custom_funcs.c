@@ -75,6 +75,10 @@ char *_strtok(char *str, char *delim)
 	return (curr_str);
 }
 
+/**
+ * cd_command - handle cd builtin command
+ * @args: arguments
+ */
 
 void cd_command(char **args)
 {
