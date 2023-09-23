@@ -1,17 +1,22 @@
 #include "shell.h"
 
+/**
+ * free_cmd - free command
+ * @cmd: a pointer to struct command
+ */
+
 void free_cmd(cmd_t *cmd)
 {
-    int i;
+	int i;
 
-    for (i = 0; i < cmd->arg_count; i++)
-        free(cmd->args[i]);
-    if (cmd->called_setenv)
-    {
-        for (i = 0; i < cmd->var_count; i++)
-            free(cmd->new_vars[i]);
-    }
-    free(cmd);
+	for (i = 0; i < cmd->arg_count; i++)
+		free(cmd->args[i]);
+	if (cmd->called_setenv)
+	{
+		for (i = 0; i < cmd->var_count; i++)
+			free(cmd->new_vars[i]);
+	}
+	free(cmd);
 }
 
 
@@ -22,6 +27,8 @@ void free_cmd(cmd_t *cmd)
  *
  * Return: Nothing
  */
+
+
 void free_args(char *args[], int num_token)
 {
 	int i;

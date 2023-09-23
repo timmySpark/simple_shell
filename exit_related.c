@@ -110,16 +110,16 @@ void _exits(cmd_t *cmmds, cmd_t *args, int cCt, int idx, char *arg)
 	{
 		free_cmd(args);
 		free(cmmds->args[idx]);
-        free(cmmds);
-        free(environ);
+		free(cmmds);
+		free(environ);
 		exit(0);
 	}
 	else if (args->args[1] == NULL && args->foundPath == 0)
 	{
 		free_cmd(args);
 		free(cmmds->args[idx]);
-        free(cmmds);
-        free(environ);
+		free(cmmds);
+		free(environ);
 		exit(2);
 	}
 
@@ -130,8 +130,8 @@ void _exits(cmd_t *cmmds, cmd_t *args, int cCt, int idx, char *arg)
 		e_printf(" %s\n", args->args[1]);
 		free_cmd(args);
 		free(cmmds->args[idx]);
-        free(cmmds);
-        free(environ);
+		free(cmmds);
+		free(environ);
 		exit(2);
 	}
 	else
@@ -139,10 +139,9 @@ void _exits(cmd_t *cmmds, cmd_t *args, int cCt, int idx, char *arg)
 		free(cmmds->args[idx]);
 		free_cmd(args);
 		free(cmmds->args[idx]);
-        free(cmmds);
-        free(environ);
+		free(cmmds);
+		free(environ);
 		exit(exit_num);
 	}
 }
-
 

@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * fetch_line - Read a line from a file descriptor
+ * _getline - Read a line from a file descriptor
  * and dynamically resize the buffer.
  * @buf_line: A pointer to where the line will be stored.
  * @buf_size: Size of the buffer.
