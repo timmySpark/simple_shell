@@ -19,7 +19,6 @@ char *rmv_space(char *cmd);
 int exit_atoi(char *str);
 void _exits(cmd_t *cmmds, cmd_t *args, int cCt, int idx, char *arg);
 void looper(cmd_t *cmmds, cmd_t *args, char *argv_0, int *cmd_count);
-cmd_t *init_cmd_t();
 char *read_file(char *input_file, char *argv_0, cmd_t *cmmds, cmd_t *args);
 char *replace_char(char *str, char c, char s);
 char *rmv_double(char *cmd, char c);

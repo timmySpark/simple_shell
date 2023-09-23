@@ -33,6 +33,16 @@ int cases(cmd_t *cmds, cmd_t *args, int cmd_count, int i, char *argv)
 	return (0);
 }
 
+/**
+ * _setenv_cmd - handle set env command
+ *@cmmds: commands
+ * @args: arguments
+ * @cmd_count: Number of commands executed.
+ * @i: i command in cmmds.
+ * @argv_0: Name of program held in argv[0].
+ * Return: 1
+ */
+
 
 int _setenv_cmd(cmd_t *args, cmd_t *cmds, int cmd_count, int i, char *argv)
 {
@@ -51,7 +61,7 @@ int _setenv_cmd(cmd_t *args, cmd_t *cmds, int cmd_count, int i, char *argv)
 
 /**
  * _unsetenv_cmd - handle unsetenv command
- * *@cmds: commands
+ * @cmds: commands
  * @args: arguments
  * @cmd_count: Number of commands executed
  * @i: i command in cmmds.
