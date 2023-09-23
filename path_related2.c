@@ -4,7 +4,7 @@
  * countSlashes - Counts forward slashes in a string.
  * @str: Input string.
  *
- * Useful for checking if a command was passed using its 
+ * Useful for checking if a command was passed using its
  * absolute path, e.g., "/bin/ls" instead of "ls."
  *
  * Return: Number of forward slashes.

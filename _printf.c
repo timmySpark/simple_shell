@@ -12,13 +12,13 @@
 
 int _printf(const char *format, ...)
 {
-    va_list args;
-    int char_count = 0;
-    const char *f = format;
+	va_list args;
+	int char_count = 0;
+	const char *f = format;
 
-    va_start(args, format);
-    phandle_format(f, args, &char_count);
-    va_end(args);
-    return (char_count);
+	va_start(args, format);
+	phandle_format(f, args, &char_count);
+	va_end(args);
+	return (char_count);
 }
 
