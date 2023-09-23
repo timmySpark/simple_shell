@@ -45,18 +45,22 @@ void not_interactive_shell(char *name)
 	char *line;
 	char **args;
 
-	while (1)
+	while (!feof(stdin))
 	{
 		line = read_line(name);
+
 		if (!line)
 			break;
+
 		args = split_line(line, name);
+
 		if (args && args[0])
 		{
 			run_command(args, name);
 		}
-	free(line);
-	free(args);
+
+		free(line);
+		free(args);
 	}
 }
 

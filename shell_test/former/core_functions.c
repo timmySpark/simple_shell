@@ -14,10 +14,10 @@ char *substitute_var(char *token)
 		char *value = getenv(token + 1);
 
 		if (value)
-			return (value);
+			return strdup(value);
 	}
 
-	return (token);
+	return strdup(token);
 }
 
 
@@ -68,7 +68,7 @@ void run_command(char **args, char *name)
 	cmd_path = find_command(args[0]);
 	if (!cmd_path)
 	{
-		fprintf(stderr, "%s: %s: command not found\n", name, args[0]);
+		fprintf(stderr, "%s: 1: %s: not found\n", name, args[0]);
 		return;
 	}
 
@@ -76,6 +76,7 @@ void run_command(char **args, char *name)
 
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (execve(cmd_path, args, NULL) == -1)
 		{
 			fprintf(stderr, "%s: %s: Not a directory\n", name, args[0]);
@@ -103,7 +104,7 @@ void run_command(char **args, char *name)
  * find_command - find command
  * @command: command to be found
  *
- * Return: path and commnd
+ * Return: path
  */
 
 char *find_command(const char *command)
@@ -114,12 +115,10 @@ char *find_command(const char *command)
 		return (strdup((command)));
 
 	path_orig = getenv("PATH");
-	path = strdup(path_orig);
 	if (!path_orig)
-	{
-		free(path);
 		return (NULL);
-	}
+
+	path = strdup(path_orig);
 	if (!path)
 		return (NULL);
 

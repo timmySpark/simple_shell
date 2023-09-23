@@ -9,6 +9,8 @@
  */
 int  main(int argc, char *argv[], char *envp[])
 {
+	signal(SIGINT, sigint_handler);
+	
 	(void) argc;
 	if (isatty(STDIN_FILENO) == 1)
 	{

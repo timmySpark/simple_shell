@@ -1,51 +1,117 @@
 #include "shell.h"
-/**
- * _setenv - sets an environment variable
- * @args: arguement
- */
-void _setenv(char **args)
-{
-	if (args[1] == NULL || args[2] == NULL)
-	{
-		fprintf(stderr, "Usage: setenv VARIABLE VALUES\n");
-		return;
-	}
-
-	if (setenv(args[1], args[2], 1) != 0)
-	{
-		perror("setenv");
-	}
-}
 
 /**
- * _unsetenv - unsets an environment variable
- * @args: arguements
+ * _getenv - Get the value of an environment variable.
+ * @name: The name of the environment variable to retrieve.
+ *
+ * This function searches for an environment variable by name and returns its
+ * value as a string.
+ *
+ * Return: A pointer to the value of the environment variable,
+ * or NULL if not found.
  */
 
-void _unsetenv(char **args)
-{
-	if (args[1] == NULL)
-	{
-		fprintf(stderr, "Usage: unsetenv VARIABLE VALUES\n");
-		return;
-	}
-	if (unsetenv(args[1]) != 0)
-	{
-		perror("unsetenv");
-	}
-}
-
-/**
- * print_environment - prints env variables
- * @envp: environment path
- */
-
-void print_environment(char **envp)
+char *_getenv(char *name)
 {
 	int i;
 
-	for (i = 0; envp[i] != NULL; i++)
+	if (name == NULL)
+		return (NULL);
+	for (i = 0; environ[i] != NULL; i++)
 	{
-		printf("%s\n", envp[i]);
+		char *variable = environ[i];
+
+		if (_strncmp(variable, name, _strlen(name)) == 0)
+		{
+			char *value = _strchr(variable, '=');
+
+			if (value != NULL)
+				return (value + 1);
+		}
 	}
+	return (NULL);
 }
+
+void print_env(void)
+{
+    int idx = 0;
+
+    while (environ[idx] != NULL)
+        e_printf("%s\n", environ[idx++]);
+}
+
+int _setenv(char *var, char *val, cmd_t *args)
+{
+    int i = 0, j;
+    char new_var[1024];
+    char **new_env;
+
+    if (!var || !val)
+        return (-1);
+
+    _strcpy(new_var, var);
+    _strcat(new_var, "=");
+    _strcat(new_var, val);
+    args->new_vars[args->var_count] = _strdup(new_var);
+    for (; environ[i] != NULL; i++)
+    {
+        if (_strncmp(environ[i], var, _strlen(var)) == 0)
+        {
+            environ[i] = args->new_vars[args->var_count];
+            args->var_count++;
+            args->called_setenv = 1;
+            return (0);
+        }
+    }
+    new_env = (char **)malloc((i + 3) * sizeof(char *));
+    for (j = 0; environ[j] != NULL; j++)
+        new_env[j] = environ[j];
+    new_env[j] = args->new_vars[args->var_count];
+    new_env[j + 1] = NULL;
+    free(environ);
+    environ = new_env;
+    args->var_count++;
+    args->called_setenv = 1;
+    return (0);
+}
+
+
+int _unsetenv(char *var)
+{
+    int i = 0, size = 0, k = 0;
+    char **temp;
+
+    if (!var)
+        return (-1);
+    while (environ[size] != NULL)
+        size++;
+    temp = (char **)malloc((size + 1) * sizeof(char *));
+    for (; environ[i] != NULL; i++)
+    {
+        if (_strncmp(environ[i], var, _strlen(var)) != 0)
+        {
+            temp[k++] = environ[i];
+        }
+    }
+    temp[k] = NULL;
+    free(environ);
+    environ = temp;
+    return (0);
+}
+
+
+void copy_env(void)
+{
+    char **new_env;
+    int size = 0, i;
+
+    while (environ[size] != NULL)
+        size++;
+    new_env = (char **)malloc((size + 1) * sizeof(char *));
+    for (i = 0; i < size; i++)
+        new_env[i] = environ[i];
+    new_env[i] = NULL;
+    environ = new_env;
+}
+
+

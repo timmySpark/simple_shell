@@ -82,7 +82,7 @@ ssize_t _getline(char **line_ptr, size_t *n, FILE *stream)
 	static char buffer[BUFFER_SIZE];
 	static char *buf_ptr;
 	static int chars_left;
-	int char_count = 0;
+	size_t char_count = 0;
 	int fd = fileno(stream);
 
 	if ((int)allocate_buffer(line_ptr, n) == -1)
