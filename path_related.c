@@ -69,8 +69,8 @@ char *userInput(cmd_t *commands, cmd_t *arguments)
 	if (readSize == 0)
 	{
 		free(input);
-        free(commands);
-        free(arguments);
+	free(commands);
+	free(arguments);
 		exit(0);
 	}
 
@@ -119,19 +119,21 @@ void runCommand(cmd_t *arguments, cmd_t *commands, int cmdCount)
 		if (WEXITSTATUS(procStatus) != 0)
 		{
 			arguments->foundPath = 0;
-		if (commands->arg_count == cmdCount && arguments->pipe)
+			if (commands->arg_count == cmdCount && arguments->pipe)
 			{
-				free_cmd(arguments);
-				free_cmd(commands);
-				free(environ);
-				exit(WEXITSTATUS(procStatus));
+				{
+					free_cmd(arguments);
+					free_cmd(commands);
+					free(environ);
+					exit(WEXITSTATUS(procStatus));
+				}
 			}
-		}
-		for (iter = 0; arguments->args[iter]; iter++)
-		{
-			free(arguments->args[iter]);
-			arguments->args[iter] = NULL;
-		}
+			for (iter = 0; arguments->args[iter]; iter++)
+			{
+				free(arguments->args[iter]);
+				arguments->args[iter] = NULL;
+			}
+	}
 	}
 }
 
