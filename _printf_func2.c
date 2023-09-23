@@ -1,3 +1,4 @@
+#include "shell.h"
 /**
  * _printf_percent - prubt percentage
  * @char_count: character count
