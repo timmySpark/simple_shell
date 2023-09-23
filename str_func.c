@@ -1,5 +1,11 @@
 #include "shell.h"
 
+/**
+ * _strlen - find the length of a string
+ * @s: String to be counted
+ *
+ * Return: length of the string
+ */
 
 int _strlen(char *s)
 {
@@ -12,6 +18,14 @@ int _strlen(char *s)
 	return (len);
 }
 
+/**
+ * _strncmp - compare two strings
+ * @s1: String one
+ * @s2: String two
+ * @n: maximum num of characters to compare
+ *
+ * Return: 0 if strings are the same
+ */
 
 int _strncmp(char *s1, char *s2, int n)
 {
@@ -25,6 +39,13 @@ int _strncmp(char *s1, char *s2, int n)
 	return (0);
 }
 
+/**
+ * _strchr - find first occurence of character
+ * @s: input string
+ * @c: character to search for
+ *
+ * Return: length of the string
+ */
 
 char *_strchr(char *s, char c)
 {
@@ -39,6 +60,13 @@ char *_strchr(char *s, char c)
 	return (NULL);
 
 }
+
+/**
+ * _strdup - duplicates a string
+ * @s: String to be duplicated
+ *
+ * Return: pointer to the duplicate string
+ */
 
 char *_strdup(char *s)
 {
