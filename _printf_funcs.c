@@ -69,7 +69,7 @@ int _print_str(char *str)
 }
 
 /**
- * _printf_int - prints an integer
+ * _print_int - prints an integer
  * @num: Integer number
  * Return: int
  */

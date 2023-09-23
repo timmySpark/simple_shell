@@ -35,11 +35,11 @@ int cases(cmd_t *cmds, cmd_t *args, int cmd_count, int i, char *argv)
 
 /**
  * _setenv_cmd - handle set env command
- *@cmmds: commands
+ * @cmds: commands
  * @args: arguments
  * @cmd_count: Number of commands executed.
  * @i: i command in cmmds.
- * @argv_0: Name of program held in argv[0].
+ * @argv: Name of program held in argv[0].
  * Return: 1
  */
 
@@ -65,7 +65,7 @@ int _setenv_cmd(cmd_t *args, cmd_t *cmds, int cmd_count, int i, char *argv)
  * @args: arguments
  * @cmd_count: Number of commands executed
  * @i: i command in cmmds.
- * @argv_0: Name of program held in argv[0]
+ * @argv: Name of program held in argv[0]
  * Return: 1
  */
 
@@ -91,7 +91,7 @@ int _unsetenv_cmd(cmd_t *args, cmd_t *cmds,
  * @args: arguments
  * @cmd_count: Number of commands executed
  * @i: i command in commands
- * @argv_0: Name of program held in argv[0].
+ * @argv: Name of program held in argv[0].
  * Return: 1
  */
 
@@ -108,7 +108,7 @@ int _exit_cmd(cmd_t *args, cmd_t *cmds,
  * @args: arguments
  * @cmd_count: Number of commands executed.
  * @i: i command in cmds.
- * @argv_0: Name of program held in argv[0].
+ * @argv: Name of program held in argv[0].
  * Return: 1 on Success
  */
 

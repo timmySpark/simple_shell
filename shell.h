@@ -107,8 +107,10 @@ ssize_t buffer_read(int fd, buff_t *buff_info);
 
 int cases(cmd_t *cmmds, cmd_t *args, int cmd_count, int i, char *argv_0);
 int _setenv_cmd(cmd_t *args, cmd_t *cmmds, int cmd_count, int i, char *argv_0);
-int _unsetenv_cmd(cmd_t *args, cmd_t *cmmds, int cmd_count, int i, char *argv_0);
-int _exit_cmd(cmd_t *args, cmd_t *cmmds, int cmd_count, int i, char *argv_0);
+int _unsetenv_cmd(cmd_t *args, cmd_t *cmmds, int cmd_count,
+		int i, char *argv_0);
+int _exit_cmd(cmd_t *args, cmd_t *cmmds, int cmd_count,
+		int i, char *argv_0);
 int _env_cmd(cmd_t *args, cmd_t *cmmds, int cmd_count, int i, char *argv_0);
 int cd_cmd(cmd_t *args, cmd_t *cmmds, int cmd_count, int i, char *argv_0);
 void cd(cmd_t *args, char *argv_0, int cmd_count);
