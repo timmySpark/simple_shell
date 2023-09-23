@@ -36,7 +36,7 @@ void phandle_format(const char *p, va_list args, int *char_count)
 				break;
 			case 's':
 				_print_str(va_arg(args, char *));
-            			break;
+				break;
 			case 'i':
 			case 'd':
 				_print_int(va_arg(args, int));
