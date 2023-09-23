@@ -109,6 +109,7 @@ void runCommand(cmd_t *arguments, cmd_t *commands, int cmdCount);
 
 /* ===================== ENVIRONMENT FUNCTIONS ===================== */
 
+cmd_t *init_cmd_t();
 char *_getenv(char *name);
 void print_env(void);
 int _setenv(char *var, char *val, cmd_t *args);

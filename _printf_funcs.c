@@ -16,6 +16,7 @@ int _printf_char(int *char_count, char c)
 /**
  * _printf_strings - prints string
  * @char_count: character count
+ * @str: string character
  *
  * Return: int
  */
@@ -34,6 +35,7 @@ int _printf_strings(int *char_count, const char *str)
 /**
  * _printf_integers - prints an integer
  * @char_count: count of the character
+ * @num: number of integers
  *
  * Return: int
  */
