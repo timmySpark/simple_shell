@@ -1,5 +1,15 @@
 #ifndef SPECIAL_H
 #define SPECIAL_H
+typedef struct Commands
+{
+	char *args[MAX_ARGS];
+	int arg_count;
+	int pipe;
+	int foundPath;
+	int var_count;
+	char *new_vars[1024];
+	int called_setenv;
+} cmd_t;
 
 
 /* ====================== SPECIAL FUNCTIONS ======================== */
