@@ -1,7 +1,10 @@
 #ifndef SPECIAL_H
 #define SPECIAL_H
 
+
 /* ====================== SPECIAL FUNCTIONS ======================== */
+
+cmd_t *init_cmd_t();
 
 int cases(cmd_t *cmmds, cmd_t *args, int cmd_count, int i, char *argv_0);
 int _setenv_cmd(cmd_t *args, cmd_t *cmmds, int cmd_count, int i, char *argv_0);
