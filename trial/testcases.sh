@@ -42,27 +42,27 @@ printf "/bin/ls" | ./trial
 echo
 
 # Test 9: Print Environment Path
-echo "Test 1: Print Environment Path"
+echo "Test 9: Print Environment Path"
 echo "echo \$PATH" | ./trial
 echo
 
 # Test 10: Use 'ls' command
-echo "\nTest 2: Use 'ls' command"
+echo "Test 10: Use 'ls' command"
 echo "ls" | ./trial
 echo
 
 # Test 11: Use 'ls' with full path
-echo "\nTest 3: Use 'ls' with full path"
+echo "Test 11: Use 'ls' with full path"
 echo "/bin/ls" | ./trial
 echo
 
 # Test 12: 'ls' with an argument
-echo "\nTest 4: 'ls' with an argument"
+echo "Test 12: 'ls' with an argument"
 echo "ls -la" | ./trial
 echo
 
 # Test 13: Change directory and then list
-echo "\nTest 5: Change directory and then list"
+echo "Test 13: Change directory and then list"
 echo "cd ..\nls" | ./trial
 echo
 
