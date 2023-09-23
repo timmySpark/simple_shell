@@ -1,3 +1,6 @@
+#ifndef CUSTOM_STRING_H
+#define CUSTOM_STRING_H
+
 /* ======================== STRING FUNCTIONS ======================== */
 
 int _strlen(char *c);
@@ -7,3 +10,5 @@ char *_strdup(char *s);
 char *_strcat(char *dest, char *src);
 char *_strtok(char *str, char *delim);
 char *_strcpy(char *dest, char *src);
+
+#endif
